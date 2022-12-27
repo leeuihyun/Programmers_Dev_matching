@@ -23,3 +23,8 @@
 - form의 enter로 인한 화면 새로고침을 막기위한 preventDefault
 - input의 입력값이 변경될 때 마다 onChange
 - 상,하,좌,우,Enter값을 제외한 입력값으로 프로그래밍 언어 검색
+
+**Api**
+
+- onChange 메서드를 App -> SearchInput으로 내려서 사용하기 전 비동기 요청을 하는 함수를 분리를 한다
+- 이 과제에서는 하나이지만 실제 프로젝트라고 가정하고 재사용성을 고려하여 코드를 작성한다
