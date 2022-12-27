@@ -16,3 +16,10 @@
 - 입력을 하여 검색을 하는 컴포넌트 - SearchInput.js
 - 입력되어 있는 값에 따라 서버에 비동기 요청을 하여 배열을 받아와 보여줄 컴포넌트 - Suggestion.js
 - 받아온 배열을 클릭 또는 키보드를 이용하여 선택하면 최대 5개까지 저장하여 보여줄 컴포넌트 - SelectedLanguage.js
+
+**SearchInput**
+
+- App.js에서 onChange를 props로 전달해서 관리.
+- form의 enter로 인한 화면 새로고침을 막기위한 preventDefault
+- input의 입력값이 변경될 때 마다 onChange
+- 상,하,좌,우,Enter값을 제외한 입력값으로 프로그래밍 언어 검색
