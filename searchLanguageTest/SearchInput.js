@@ -14,4 +14,11 @@ export default function SearchInput({ target, onChange }) {
   this.element.addEventListener("submit", (e) => {
     e.preventDefault();
   });
+
+  this.element.addEventListener("keyup", (e) => {
+    const ignoreKey = ["ArrowUp", "ArrowDown", "Enter"];
+    if (!ignoreKey.includes(e.key)) {
+      onChange(e.target.value);
+    }
+  });
 }
