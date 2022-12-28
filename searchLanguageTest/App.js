@@ -1,4 +1,6 @@
 import SearchInput from "./SearchInput.js";
+import Suggestion from "./Suggestion.js";
+import SelectedLanguage from "./SelectedLanguage.js";
 import { fetchLanguage } from "./Api.js";
 
 export default function App(target) {
@@ -27,6 +29,28 @@ export default function App(target) {
           fetchLanguageArray: fetchData,
         });
       }
+    },
+  });
+
+  const suggestion = new Suggestion({
+    target,
+    initialState: {
+      selectedItemNumber: 0,
+      items: [],
+    },
+    onSelect: (value) => {
+      if (!this.state.selectedLangaugeArray.includes(value)) {
+        this.setState({
+          selectedLangaugeArray: [...this.state.selectedLangaugeArray, value],
+        });
+      }
+    },
+  });
+
+  const selectedLanguage = new SelectedLanguage({
+    target,
+    initialState: {
+      items: [],
     },
   });
 }
