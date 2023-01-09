@@ -2,6 +2,7 @@ import Breadcrumb from "./Breadcrumb.js";
 import Api from "./Api.js";
 import Nodes from "./Nodes.js";
 import ImgView from "./ImgView.js";
+import Loading from "./Loading.js";
 
 export default function App(target) {
   this.state = {
@@ -9,6 +10,7 @@ export default function App(target) {
     currentDepth: [],
     nodes: [],
     selectFilePath: "",
+    isLoading: false,
   };
 
   this.setState = (nextState) => {
@@ -19,8 +21,10 @@ export default function App(target) {
     bread.setState(this.state.currentDepth);
     nodes.setState({ nodes: this.state.nodes, isTop: this.state.isTop });
     imgview.setState(this.state.selectFilePath);
+    loading.setState(false);
   };
 
+  const loading = new Loading({ target, initialState: false });
   const bread = new Breadcrumb({
     target,
     initialState: this.state.currentDepth,
@@ -38,6 +42,7 @@ export default function App(target) {
     },
     onClick: async (node) => {
       if (node.type === "DIRECTORY") {
+        loading.setState(true);
         try {
           const currentNodes = await api.getData(node.id);
           this.setState({
@@ -46,6 +51,7 @@ export default function App(target) {
             nodes: currentNodes,
             selectFilePath: "",
             currentDepth: [...this.state.currentDepth, node],
+            isLoading: false,
           });
         } catch (error) {
           throw new Error(error.message);
@@ -60,7 +66,7 @@ export default function App(target) {
     onBackClick: async () => {
       try {
         const tmp = { ...this.state };
-
+        loading.setState(true);
         if (this.state.currentDepth.length === 1) {
           const rootNodes = await api.getData();
           this.setState({
@@ -69,6 +75,7 @@ export default function App(target) {
             isTop: true,
             currentDepth: [],
             selectFilePath: "",
+            isLoading: false,
           });
         } else {
           tmp.currentDepth.pop();
@@ -95,6 +102,7 @@ export default function App(target) {
       this.setState({
         ...this.state,
         nodes: currentNodes,
+        isLoading: false,
       });
     } catch (error) {
       throw new Error(error.message);
