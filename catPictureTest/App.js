@@ -28,6 +28,51 @@ export default function App(target) {
   const bread = new Breadcrumb({
     target,
     initialState: this.state.currentDepth,
+    onClick: async (node) => {
+      loading.setState(true);
+      try {
+        if (node) {
+          const currentNodes = await api.getData(node.id);
+          const tmp = { ...this.state };
+          let check = false;
+          const newArr = tmp.currentDepth.reduce((acc, value) => {
+            if (value.id === node.id) {
+              check = true;
+              acc.push(value);
+            } else if (check === false) {
+              acc.push(value);
+            }
+            return acc;
+          }, []);
+          this.setState({
+            ...this.state,
+            isTop: false,
+            nodes: currentNodes,
+            selectFilePath: "",
+            currentDepth: newArr,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    onRootClick: async () => {
+      try {
+        loading.setState(true);
+        const currentNodes = await api.getData();
+        this.setState({
+          ...this.state,
+          isTop: true,
+          nodes: currentNodes,
+          selectFilePath: "",
+          currentDepth: [],
+          isLoading: false,
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
   });
   const imgview = new ImgView({
     target,
@@ -88,6 +133,7 @@ export default function App(target) {
             isTop: false,
             currentDepth: tmp.currentDepth,
             selectFilePath: "",
+            isLoading: false,
           });
         }
       } catch (error) {
