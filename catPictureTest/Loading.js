@@ -13,6 +13,5 @@ export default function Loading({ target, initialState }) {
     this.element.innerHTML = `<div class="content"><img src="./assets/nyan-cat.gif"></div>`;
     this.element.style.display = this.state ? "block" : "none";
   };
-
   this.render();
 }
